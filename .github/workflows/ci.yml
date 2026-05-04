@@ -14,5 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: login to docker hub
+      uses:docker/login-action@v2
+      with:
+        username: ${{ secerts.DOCKER_USERNAME }}
+        password: ${{ secerts.DOCKER_PASSWORD }}
+    - name : build docker image
+      run: docker build -t ishaniruh/node-app:latest .
+    - name: push docker image in docker hub
+      run: docker push ishaniruh/node-app:latest
